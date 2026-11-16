@@ -2,7 +2,7 @@ function HomePage() {
 
   return (
     <> 
-    <p>HomePage</p>
+    <p className="flex justify-center p-4 text-amber-300">HomePage</p>
     </>
   )
 }
