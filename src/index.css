@@ -6,5 +6,12 @@
   --color-primary-light: #003566;
   --color-secondary-light: #ffd60a;
   --color-secondary: #ffc300;
-  --color-letters: #000814;
+  --color-foreground: #000814;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
 }
