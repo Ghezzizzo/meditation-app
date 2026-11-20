@@ -1,10 +1,10 @@
-import { Link } from "react-router";
 import { House } from "lucide-react";
 import { useState } from "react";
 import Idle from "../components/TimerPage/Idle";
 import Meditation from "../components/TimerPage/Meditation";
 import Finish from "../components/TimerPage/Finish";
 import Pause from "../components/TimerPage/Pause";
+import IconLink from "../components/IconLink";
 
 function TimerPage() {
   const [phase, setPhase] = useState("Idle");
@@ -33,13 +33,9 @@ function TimerPage() {
   return (
     <div className="relative">
       <header className="absolute top-0 left-0 p-6">
-        <Link
-          to="/"
-          aria-label="Home"
-          className="flex h-10 w-10 items-center justify-center rounded-full  text-primary transition hover:bg-primary-light hover:text-secondary"
-        >
+        <IconLink to="/" ariaLabel="Home" border={false}>
           <House />
-        </Link>
+        </IconLink>
       </header>
       <main className="flex min-h-svh flex-col items-center justify-center px-4 text-center">
         {showPhase()}
