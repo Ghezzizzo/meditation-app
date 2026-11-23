@@ -1,7 +1,7 @@
 import { Pause, RotateCcw } from "lucide-react";
 import IconButton from "../IconButton";
 
-function MeditationControls({ onPause }) {
+function MeditationControls({ onPause, onRestart }) {
   return (
     <div>
       <p>Meditation</p>
@@ -9,7 +9,7 @@ function MeditationControls({ onPause }) {
         <IconButton onClick={onPause} ariaLabel="Pausa">
           <Pause />
         </IconButton>
-        <IconButton ariaLabel="Ricomincia">
+        <IconButton onClick={onRestart} ariaLabel="Ricomincia">
           <RotateCcw />
         </IconButton>
       </div>
