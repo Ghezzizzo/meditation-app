@@ -7,6 +7,7 @@ import PauseControls from "../components/TimerPage/PauseControls";
 import Timer from "../components/TimerPage/Timer";
 import IconLink from "../components/IconLink";
 import Result from "../components/TimerPage/Result";
+import DurationPicker from "../components/TimerPage/DurationPicker";
 
 function TimerPage() {
   const [phase, setPhase] = useState("Idle");
@@ -36,13 +37,16 @@ function TimerPage() {
   function handlePause() {
     setPhase("Pause");
   }
+
   function handleFinish() {
     setPhase("Finish");
   }
+
   function handleStart() {
     startTimeRef.current = Date.now() - elapsedMs;
     setPhase("Meditation");
   }
+
   function handleNewTimer() {
     setElapsedMs(0);
     setPhase("Idle");
@@ -54,17 +58,47 @@ function TimerPage() {
     setPhase("Meditation");
   }
 
-  const showControls = () => {
-    if (phase === "Meditation")
-      return (
-        <MeditationControls onPause={handlePause} onRestart={handleRestart} />
-      );
-    if (phase === "Pause")
-      return <PauseControls onResume={handleStart} onEnd={handleFinish} />;
-    if (phase === "Finish")
-      return <FinishControls onNewTimer={handleNewTimer} />;
-    if (phase === "Idle") return <IdleControls onStart={handleStart} />;
-  };
+  function showPhase() {
+    switch (phase) {
+      case "Idle":
+        return (
+          <div className="flex flex-col">
+            <DurationPicker />
+            <IdleControls onStart={handleStart} />
+          </div>
+        );
+      case "Meditation":
+        return (
+          <div className="flex flex-col">
+            <Timer durationMs={durationMs} elapsedMs={elapsedMs} />
+            <MeditationControls
+              onPause={handlePause}
+              onRestart={handleRestart}
+            />
+          </div>
+        );
+      case "Pause":
+        return (
+          <div className="flex flex-col">
+            <Timer durationMs={durationMs} elapsedMs={elapsedMs} />
+            <PauseControls onResume={handleStart} onEnd={handleFinish} />
+          </div>
+        );
+      case "Finish":
+        return (
+          <div className="flex flex-col">
+            <Result />
+            <FinishControls onNewTimer={handleNewTimer} />
+          </div>
+        );
+      default:
+        return (
+          <div>
+            <h1>Fase sconosciuta</h1>
+          </div>
+        );
+    }
+  }
 
   return (
     <div className="relative">
@@ -74,13 +108,7 @@ function TimerPage() {
         </IconLink>
       </header>
       <main className="flex min-h-svh flex-col items-center justify-center px-4 text-center">
-        {phase === "Pause" || phase === "Meditation" ? (
-          <Timer durationMs={durationMs} elapsedMs={elapsedMs} />
-        ) : (
-          <Result />
-        )}
-
-        {showControls()}
+        {showPhase()}
       </main>
     </div>
   );

@@ -4,8 +4,7 @@ import IconButton from "../IconButton";
 function MeditationControls({ onPause, onRestart }) {
   return (
     <div>
-      <p>Meditation</p>
-      <div className="flex gap-4">
+      <div className="flex justify-center gap-4">
         <IconButton onClick={onPause} ariaLabel="Pausa">
           <Pause />
         </IconButton>

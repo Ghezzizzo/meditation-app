@@ -3,9 +3,7 @@ import IconButton from "../IconButton";
 
 function IdleControls({ onStart }) {
   return (
-    <div>
-      <p>Idle</p>
-
+    <div className="flex justify-center gap-4">
       <IconButton onClick={onStart} ariaLabel="Avvia">
         <Play />
       </IconButton>

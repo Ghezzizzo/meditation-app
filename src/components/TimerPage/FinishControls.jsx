@@ -5,8 +5,7 @@ import IconLink from "../IconLink";
 function FinishControls({ onNewTimer }) {
   return (
     <div>
-      <p>Finish</p>
-      <div className="flex gap-4">
+      <div className="flex justify-center gap-4">
         <IconButton onClick={onNewTimer} ariaLabel="Nuovo timer">
           <ClockPlus />
         </IconButton>

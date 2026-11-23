@@ -4,8 +4,7 @@ import IconButton from "../IconButton";
 function PauseControls({ onResume, onEnd }) {
   return (
     <div>
-      <p>Pause</p>
-      <div className="flex gap-4">
+      <div className="flex justify-center gap-4">
         <IconButton onClick={onResume} ariaLabel="Riprendi">
           <Play />
         </IconButton>
