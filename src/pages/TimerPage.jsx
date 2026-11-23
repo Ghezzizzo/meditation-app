@@ -75,7 +75,7 @@ function TimerPage() {
       </header>
       <main className="flex min-h-svh flex-col items-center justify-center px-4 text-center">
         {phase === "Pause" || phase === "Meditation" ? (
-          <Timer duration={durationMs} elaps={elapsedMs} />
+          <Timer durationMs={durationMs} elapsedMs={elapsedMs} />
         ) : (
           <Result />
         )}
