@@ -7,7 +7,7 @@ function HomePage() {
     <div className="relative">
       <header className="absolute top-0 right-0 p-6">
         <IconLink to="/trophies" ariaLabel="Trofei">
-          <Trophy className="h-5 w-5" />
+          <Trophy />
         </IconLink>
       </header>
 
