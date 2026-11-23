@@ -1,7 +1,7 @@
 import { Play } from "lucide-react";
 import IconButton from "../IconButton";
 
-function Idle({ onStart }) {
+function IdleControls({ onStart }) {
   return (
     <div>
       <p>Idle</p>
@@ -13,4 +13,4 @@ function Idle({ onStart }) {
   );
 }
 
-export default Idle;
+export default IdleControls;

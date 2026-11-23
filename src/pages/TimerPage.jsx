@@ -1,9 +1,9 @@
 import { House } from "lucide-react";
 import { useState } from "react";
-import Idle from "../components/TimerPage/Idle";
-import Meditation from "../components/TimerPage/Meditation";
-import Finish from "../components/TimerPage/Finish";
-import Pause from "../components/TimerPage/Pause";
+import IdleControls from "../components/TimerPage/IdleControls";
+import MeditationControls from "../components/TimerPage/MeditationControls";
+import FinishControls from "../components/TimerPage/FinishControls";
+import PauseControls from "../components/TimerPage/PauseControls";
 import IconLink from "../components/IconLink";
 
 function TimerPage() {
@@ -23,11 +23,13 @@ function TimerPage() {
   }
 
   const showPhase = () => {
-    if (phase === "Meditation") return <Meditation onPause={handlePause} />;
+    if (phase === "Meditation")
+      return <MeditationControls onPause={handlePause} />;
     if (phase === "Pause")
-      return <Pause onResume={handleStart} onEnd={handleFinish} />;
-    if (phase === "Finish") return <Finish onNewTimer={handleNewTimer} />;
-    if (phase === "Idle") return <Idle onStart={handleStart} />;
+      return <PauseControls onResume={handleStart} onEnd={handleFinish} />;
+    if (phase === "Finish")
+      return <FinishControls onNewTimer={handleNewTimer} />;
+    if (phase === "Idle") return <IdleControls onStart={handleStart} />;
   };
 
   return (

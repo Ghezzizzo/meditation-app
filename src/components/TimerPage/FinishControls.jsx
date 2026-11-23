@@ -2,7 +2,7 @@ import { ClockPlus, Trophy } from "lucide-react";
 import IconButton from "../IconButton";
 import IconLink from "../IconLink";
 
-function Finish({ onNewTimer }) {
+function FinishControls({ onNewTimer }) {
   return (
     <div>
       <p>Finish</p>
@@ -12,11 +12,11 @@ function Finish({ onNewTimer }) {
         </IconButton>
 
         <IconLink to="/trophies" ariaLabel="Trofei">
-          <Trophy className="h-5 w-5" />
+          <Trophy />
         </IconLink>
       </div>
     </div>
   );
 }
 
-export default Finish;
+export default FinishControls;

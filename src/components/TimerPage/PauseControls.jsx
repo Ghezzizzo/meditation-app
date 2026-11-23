@@ -1,7 +1,7 @@
 import { Play, OctagonX } from "lucide-react";
 import IconButton from "../IconButton";
 
-function Pause({ onResume, onEnd }) {
+function PauseControls({ onResume, onEnd }) {
   return (
     <div>
       <p>Pause</p>
@@ -17,4 +17,4 @@ function Pause({ onResume, onEnd }) {
   );
 }
 
-export default Pause;
+export default PauseControls;
