@@ -63,7 +63,7 @@ function TimerPage() {
       case "Idle":
         return (
           <div className="flex flex-col">
-            <DurationPicker />
+            <DurationPicker onSelect={setDurationMs} value={durationMs} />
             <IdleControls onStart={handleStart} />
           </div>
         );
