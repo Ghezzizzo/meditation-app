@@ -36,18 +36,18 @@ Anche se il sito web che creerai non è complesso, sarebbe meglio utilizzare alc
 
 ## Lista di controllo dei requisiti
 
-| Requisito | Obbligatorio | Stato |
-| --- | --- | --- |
-| Timer impostabile dall'utente | sì | da fare |
-| Pausa e ripresa del timer | sì | da fare |
-| Riferimenti alla meditazione (immagini, testi) | sì | da fare |
-| UI/UX semplice | sì | da fare |
-| Struttura dell'app organizzata | sì | da fare |
-| Design responsive | sì | da fare |
-| React Router | bonus | da fare |
-| Axios | bonus | da fare |
-| React Hooks | bonus | da fare |
-| Redux o Context API | bonus | da fare |
+| Requisito                                      | Obbligatorio | Stato    |
+| ---------------------------------------------- | ------------ | -------- |
+| Timer impostabile dall'utente                  | sì           | fatto    |
+| Pausa e ripresa del timer                      | sì           | fatto    |
+| Riferimenti alla meditazione (immagini, testi) | sì           | da fare  |
+| UI/UX semplice                                 | sì           | in corso |
+| Struttura dell'app organizzata                 | sì           | in corso |
+| Design responsive                              | sì           | in corso |
+| React Router                                   | bonus        | fatto    |
+| Axios                                          | bonus        | da fare  |
+| React Hooks                                    | bonus        | in corso |
+| Redux o Context API                            | bonus        | da fare  |
 
 ## Progetto (definito il 12-13/11/2026)
 
@@ -59,11 +59,11 @@ Il timer di Headspace: design semplice, minimale e intuitivo. Durante la session
 
 Nessuna navbar.
 
-| Pagina | Contenuto | Navigazione |
-| --- | --- | --- |
-| `HomePage` | titolo, breve spiegazione dell'app | pulsante «Medita» verso il Timer, icona trofeo verso i Trofei |
-| `TimerPage` | scelta della durata, timer, riferimenti alla meditazione | icona casa |
-| `TrophiesPage` | obiettivi sbloccati ed easter egg | icona casa |
+| Pagina         | Contenuto                                                | Navigazione                                                   |
+| -------------- | -------------------------------------------------------- | ------------------------------------------------------------- |
+| `HomePage`     | titolo, breve spiegazione dell'app                       | pulsante «Medita» verso il Timer, icona trofeo verso i Trofei |
+| `TimerPage`    | scelta della durata, timer, riferimenti alla meditazione | icona casa                                                    |
+| `TrophiesPage` | obiettivi sbloccati ed easter egg                        | icona casa                                                    |
 
 La casa porta sempre alla Home, anche arrivando da un segnalibro. Collegamenti con `<Link>` di React Router; le icone senza testo hanno un `aria-label`.
 
@@ -84,42 +84,43 @@ main.jsx
         └── Footer
 ```
 
-I nomi dei sottocomponenti di `TimerPage` sono provvisori. La selezione e il timer sono fratelli: lo stato condiviso sta nel genitore `TimerPage` (*lifting state up*). Il tempo che scorre ogni secondo non va nel Context. Il Provider sta in un file proprio (`context/`) e non deve conoscere la pagina corrente.
+I nomi dei sottocomponenti di `TimerPage` sono provvisori. La selezione e il timer sono fratelli: lo stato condiviso sta nel genitore `TimerPage` (_lifting state up_). Il tempo che scorre ogni secondo non va nel Context. Il Provider sta in un file proprio (`context/`) e non deve conoscere la pagina corrente.
 
 ### Fasi di `TimerPage`
 
-| Fase | Pulsanti (oltre alla casa) | Evento | Fase successiva |
-| --- | --- | --- | --- |
-| `"idle"` | Avvia | Avvia | `"meditation"` |
-| `"meditation"` | Ricomincia, Pausa | Ricomincia | `"meditation"` (tempo da zero, stessa durata) |
-| | | Pausa | `"pause"` |
-| | | fine del timer | `"finish"` |
-| `"pause"` | Riprendi, Termina | Riprendi | `"meditation"` |
-| | | Termina | `"finish"` (chiusura anticipata) |
-| `"finish"` | Nuovo timer, link ai Trofei | Nuovo timer | `"idle"` |
+| Fase           | Pulsanti (oltre alla casa)  | Evento         | Fase successiva                               |
+| -------------- | --------------------------- | -------------- | --------------------------------------------- |
+| `"Idle"`       | Avvia                       | Avvia          | `"Meditation"`                                |
+| `"Meditation"` | Ricomincia, Pausa           | Ricomincia     | `"Meditation"` (tempo da zero, stessa durata) |
+|                |                             | Pausa          | `"Pause"`                                     |
+|                |                             | fine del timer | `"Finish"`                                    |
+| `"Pause"`      | Riprendi, Termina           | Riprendi       | `"Meditation"`                                |
+|                |                             | Termina        | `"Finish"` (chiusura anticipata)              |
+| `"Finish"`     | Nuovo timer, link ai Trofei | Nuovo timer    | `"Idle"`                                      |
 
-La rotella si vede solo in `"idle"`. Immagini e suoni compaiono a sessione avviata; il suono parte al clic su Avvia, perché i browser bloccano l'audio che parte da solo. In pausa non c'è Ricomincia: si riprende e poi si ricomincia.
+La rotella si vede solo in `"Idle"`. Immagini e suoni compaiono a sessione avviata; il suono parte al clic su Avvia, perché i browser bloccano l'audio che parte da solo. In pausa non c'è Ricomincia: si riprende e poi si ricomincia.
 
 ### Resoconto di sessione
 
 ```js
 const session = {
   durationMs: 300000, // durata impostata
-  elapsedMs: 180000,  // tempo trascorso dall'ultimo restart
-  restart: 1,         // ripartenze da zero
-  pause: 0            // pause
+  elapsedMs: 180000, // tempo trascorso dall'ultimo restart
+  restart: 1, // ripartenze da zero
+  pause: 0, // pause
 };
 ```
 
 - Un restart non apre una nuova sessione: azzera `elapsedMs` e incrementa `restart`.
 - Il resoconto si consegna al Context una volta sola: a fine timer, con Termina, oppure quando si lascia la pagina (funzione di pulizia dell'`useEffect` di `TimerPage`).
-- Completata se `elapsedMs >= durationMs - 1000` (un secondo di tolleranza per l'imprecisione di `setInterval`). Nessuna proprietà `finished`: il dato si ricava (*avoid redundant state*).
+- Completata se `elapsedMs >= durationMs`. Nessuna tolleranza: il timer calcola il tempo con `Date.now()` e, a fine timer, imposta `elapsedMs` esattamente a `durationMs`. Una sessione chiusa con Termina prima della fine non è completata.
+- Nessuna proprietà `finished`: il dato si ricava (_avoid redundant state_).
 - Il Context tiene l'array delle sessioni e lo salva in `localStorage` (`JSON.stringify` / `JSON.parse`).
 
 ### Trofei
 
 - Si ricavano ogni volta dall'array delle sessioni: non si salva a parte l'elenco degli sbloccati.
-- **Neofita:** prima meditazione iniziata. Si sblocca alla pressione di Avvia, ma si notifica solo in `"finish"` o nella pagina Trofei, mai durante la meditazione.
+- **Neofita:** prima meditazione iniziata. Si sblocca alla pressione di Avvia, ma si notifica solo in `"Finish"` o nella pagina Trofei, mai durante la meditazione.
 - **Senza pause:** sessione di una certa durata completata con `pause: 0`.
 - Bonus Axios: elenco dei trofei in un file JSON in `public/`, caricato con Axios.
 - La gamification si fa per ultima, dopo timer e responsive.
