@@ -8,11 +8,14 @@ import Timer from "../components/TimerPage/Timer";
 import IconLink from "../components/IconLink";
 import Result from "../components/TimerPage/Result";
 import DurationPicker from "../components/TimerPage/DurationPicker";
+import { minToMs } from "../utils/time";
+
+const DEFAULT_DURATION = minToMs(5);
 
 function TimerPage() {
   const [phase, setPhase] = useState("Idle");
   const [elapsedMs, setElapsedMs] = useState(0);
-  const [durationMs, setDurationMs] = useState(300000);
+  const [durationMs, setDurationMs] = useState(DEFAULT_DURATION);
 
   const startTimeRef = useRef(null);
 
@@ -49,6 +52,7 @@ function TimerPage() {
 
   function handleNewTimer() {
     setElapsedMs(0);
+    setDurationMs(DEFAULT_DURATION);
     setPhase("Idle");
   }
 
