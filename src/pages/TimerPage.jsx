@@ -33,10 +33,10 @@ function TimerPage() {
         clearInterval(id);
         setElapsedMs(durationMs);
         addSession({
-          durationMs,
-          durationMs,
-          restart,
-          pause,
+          durationMs: durationMs,
+          elapsedMs: durationMs,
+          restart: restart,
+          pause: pause,
         });
 
         setPhase("Finish");
