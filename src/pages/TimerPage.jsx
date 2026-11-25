@@ -15,6 +15,8 @@ const DEFAULT_DURATION = minToMs(5);
 function TimerPage() {
   const [phase, setPhase] = useState("Idle");
   const [elapsedMs, setElapsedMs] = useState(0);
+  const [restart, setRestart] = useState(0);
+  const [pause, setPause] = useState(0);
   const [durationMs, setDurationMs] = useState(DEFAULT_DURATION);
 
   const startTimeRef = useRef(null);
@@ -38,6 +40,7 @@ function TimerPage() {
   }, [phase, durationMs]);
 
   function handlePause() {
+    setPause((prev) => prev + 1);
     setPhase("Pause");
   }
 
@@ -52,13 +55,17 @@ function TimerPage() {
 
   function handleNewTimer() {
     setElapsedMs(0);
+    setPause(0);
+    setRestart(0);
     setDurationMs(DEFAULT_DURATION);
     setPhase("Idle");
   }
 
   function handleRestart() {
     startTimeRef.current = Date.now();
+    setRestart((prev) => prev + 1);
     setElapsedMs(0);
+    setPause(0);
     setPhase("Meditation");
   }
 
@@ -91,7 +98,12 @@ function TimerPage() {
       case "Finish":
         return (
           <div className="flex flex-col">
-            <Result />
+            <Result
+              durationMs={durationMs}
+              elapsedMs={elapsedMs}
+              pause={pause}
+              restart={restart}
+            />
             <FinishControls onNewTimer={handleNewTimer} />
           </div>
         );

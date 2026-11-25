@@ -1,4 +1,4 @@
-import { formatTime } from "../../utils/time";
+import { formatTime, formatTimeText } from "../../utils/time";
 
 const size = 240;
 const strokeWidth = 10;
@@ -19,7 +19,7 @@ function Timer({ durationMs, elapsedMs }) {
       aria-valuemin={0}
       aria-valuemax={durationMs}
       aria-valuenow={elapsedMs}
-      aria-valuetext={formatTime(remainingMs)}
+      aria-valuetext={`${formatTimeText(remainingMs)} rimanenti`}
       aria-label="Timer"
     >
       <svg className="-rotate-90" width={size} height={size}>

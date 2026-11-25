@@ -111,7 +111,7 @@ const session = {
 };
 ```
 
-- Un restart non apre una nuova sessione: azzera `elapsedMs` e incrementa `restart`.
+- Un restart non apre una nuova sessione: azzera `elapsedMs`, azzera `pause` e incrementa `restart`.
 - Il resoconto si consegna al Context una volta sola: a fine timer, con Termina, oppure quando si lascia la pagina (funzione di pulizia dell'`useEffect` di `TimerPage`).
 - Completata se `elapsedMs >= durationMs`. Nessuna tolleranza: il timer calcola il tempo con `Date.now()` e, a fine timer, imposta `elapsedMs` esattamente a `durationMs`. Una sessione chiusa con Termina prima della fine non è completata.
 - Nessuna proprietà `finished`: il dato si ricava (_avoid redundant state_).
