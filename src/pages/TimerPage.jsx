@@ -1,5 +1,5 @@
 import { House } from "lucide-react";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import IdleControls from "../components/TimerPage/IdleControls";
 import MeditationControls from "../components/TimerPage/MeditationControls";
 import FinishControls from "../components/TimerPage/FinishControls";
@@ -9,6 +9,7 @@ import IconLink from "../components/IconLink";
 import Result from "../components/TimerPage/Result";
 import DurationPicker from "../components/TimerPage/DurationPicker";
 import { minToMs } from "../utils/time";
+import { SessionContext } from "../context/SessionContext";
 
 const DEFAULT_DURATION = minToMs(5);
 
@@ -20,6 +21,7 @@ function TimerPage() {
   const [durationMs, setDurationMs] = useState(DEFAULT_DURATION);
 
   const startTimeRef = useRef(null);
+  const { addSession } = useContext(SessionContext);
 
   useEffect(() => {
     if (phase !== "Meditation") return;
@@ -30,6 +32,13 @@ function TimerPage() {
       if (currentElapsed >= durationMs) {
         clearInterval(id);
         setElapsedMs(durationMs);
+        addSession({
+          durationMs,
+          durationMs,
+          restart,
+          pause,
+        });
+
         setPhase("Finish");
       } else {
         setElapsedMs(currentElapsed);
@@ -37,7 +46,7 @@ function TimerPage() {
     }, 100);
 
     return () => clearInterval(id);
-  }, [phase, durationMs]);
+  }, [phase, durationMs, pause, restart, addSession]);
 
   function handlePause() {
     setPause((prev) => prev + 1);
@@ -45,6 +54,12 @@ function TimerPage() {
   }
 
   function handleFinish() {
+    addSession({
+      durationMs: durationMs,
+      elapsedMs: elapsedMs,
+      restart: restart,
+      pause: pause,
+    });
     setPhase("Finish");
   }
 
