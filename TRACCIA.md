@@ -53,7 +53,7 @@ Anche se il sito web che creerai non è complesso, sarebbe meglio utilizzare alc
 
 ### Riferimento di stile
 
-Il timer di Headspace: design semplice, minimale e intuitivo. Durante la sessione, una linea di avanzamento con un pallino che scorre e il tempo trascorso all'inizio; pochi pulsanti e poche scritte.
+Il timer di Headspace: design semplice, minimale e intuitivo. Durante la sessione, un cerchio che si svuota con il tempo al centro; pochi pulsanti e poche scritte.
 
 ### Pagine e navigazione
 
@@ -77,7 +77,7 @@ main.jsx
         │   ├── HomePage
         │   ├── TimerPage         (fase della pagina, durata scelta, tempo che scorre)
         │   │   ├── DurationPicker
-        │   │   ├── Timer         (linea con pallino)
+        │   │   ├── Timer         (cerchio che si svuota)
         │   │   ├── Controls      (pulsanti della fase)
         │   │   └── Ambience      (immagini e suoni)
         │   └── TrophiesPage
