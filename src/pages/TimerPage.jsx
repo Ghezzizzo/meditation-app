@@ -21,6 +21,7 @@ function TimerPage() {
   const [durationMs, setDurationMs] = useState(DEFAULT_DURATION);
 
   const startTimeRef = useRef(null);
+  const sessionRef = useRef({ phase: "Idle", session: {} });
   const { addSession } = useContext(SessionContext);
 
   useEffect(() => {
@@ -47,6 +48,27 @@ function TimerPage() {
 
     return () => clearInterval(id);
   }, [phase, durationMs, pause, restart, addSession]);
+
+  useEffect(() => {
+    sessionRef.current = {
+      phase: phase,
+      session: {
+        durationMs: durationMs,
+        elapsedMs: elapsedMs,
+        restart: restart,
+        pause: pause,
+      },
+    };
+  }, [durationMs, elapsedMs, restart, pause, phase]);
+
+  useEffect(() => {
+    return () => {
+      const currentPhase = sessionRef.current.phase;
+      if (currentPhase === "Meditation" || currentPhase === "Pause") {
+        addSession(sessionRef.current.session);
+      }
+    }; // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Omit `addSession` to trigger only on unmount; safe because it uses `setSessions(prev => ...)` to access the latest state.
 
   function handlePause() {
     setPause((prev) => prev + 1);
