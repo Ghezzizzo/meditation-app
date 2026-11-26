@@ -9,18 +9,10 @@ import IconLink from "../components/IconLink";
 import Result from "../components/TimerPage/Result";
 import DurationPicker from "../components/TimerPage/DurationPicker";
 import { minToMs } from "../utils/time";
+import { createSession } from "../utils/sessions";
 import { SessionContext } from "../context/SessionContext";
 
 const DEFAULT_DURATION = minToMs(5);
-
-function createSession({ durationMs, elapsedMs, restart, pause }) {
-  return {
-    durationMs,
-    elapsedMs,
-    restart,
-    pause,
-  };
-}
 
 function TimerPage() {
   const [phase, setPhase] = useState("Idle");

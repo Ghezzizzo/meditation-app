@@ -1,0 +1,18 @@
+[
+  {
+    "id": "firstMeditation",
+    "title": "Neofita",
+    "icon": "Baby",
+    "description": "Medita per la prima volta",
+    "tier": 1,
+    "isHidden": false
+  },
+  {
+    "id": "noPause",
+    "title": "Senza pause",
+    "icon": "FastForward",
+    "description": "Medita senza mai mettere in pausa per almeno 5 minuti",
+    "tier": 1,
+    "isHidden": false
+  }
+]

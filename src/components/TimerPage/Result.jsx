@@ -1,8 +1,9 @@
 import { ChevronRight } from "lucide-react";
 import { msToMin, formatTimeText } from "../../utils/time";
+import { isCompleted } from "../../utils/sessions";
 
 function Result({ durationMs, elapsedMs, pause, restart }) {
-  const complete = elapsedMs >= durationMs ? "Sì" : "No";
+  const complete = isCompleted({ durationMs, elapsedMs }) ? "Sì" : "No";
   return (
     <div className=" p-6 border border-primary rounded-md shadow-xs mb-4">
       <h1 className="mb-4 text-xl font-bold text-primary">
