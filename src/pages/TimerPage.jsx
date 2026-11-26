@@ -13,6 +13,15 @@ import { SessionContext } from "../context/SessionContext";
 
 const DEFAULT_DURATION = minToMs(5);
 
+function createSession({ durationMs, elapsedMs, restart, pause }) {
+  return {
+    durationMs,
+    elapsedMs,
+    restart,
+    pause,
+  };
+}
+
 function TimerPage() {
   const [phase, setPhase] = useState("Idle");
   const [elapsedMs, setElapsedMs] = useState(0);
@@ -33,13 +42,9 @@ function TimerPage() {
       if (currentElapsed >= durationMs) {
         clearInterval(id);
         setElapsedMs(durationMs);
-        addSession({
-          durationMs: durationMs,
-          elapsedMs: durationMs,
-          restart: restart,
-          pause: pause,
-        });
-
+        addSession(
+          createSession({ durationMs, elapsedMs: durationMs, restart, pause }),
+        );
         setPhase("Finish");
       } else {
         setElapsedMs(currentElapsed);
@@ -51,13 +56,8 @@ function TimerPage() {
 
   useEffect(() => {
     sessionRef.current = {
-      phase: phase,
-      session: {
-        durationMs: durationMs,
-        elapsedMs: elapsedMs,
-        restart: restart,
-        pause: pause,
-      },
+      phase,
+      session: createSession({ durationMs, elapsedMs, restart, pause }),
     };
   }, [durationMs, elapsedMs, restart, pause, phase]);
 
@@ -76,12 +76,7 @@ function TimerPage() {
   }
 
   function handleFinish() {
-    addSession({
-      durationMs: durationMs,
-      elapsedMs: elapsedMs,
-      restart: restart,
-      pause: pause,
-    });
+    addSession(createSession({ durationMs, elapsedMs, restart, pause }));
     setPhase("Finish");
   }
 

@@ -47,7 +47,7 @@ Anche se il sito web che creerai non è complesso, sarebbe meglio utilizzare alc
 | React Router                                   | bonus        | fatto    |
 | Axios                                          | bonus        | da fare  |
 | React Hooks                                    | bonus        | in corso |
-| Redux o Context API                            | bonus        | da fare  |
+| Redux o Context API                            | bonus        | fatto    |
 
 ## Progetto (definito il 12-13/11/2026)
 
@@ -72,8 +72,8 @@ La casa porta sempre alla Home, anche arrivando da un segnalibro. Collegamenti c
 ```
 main.jsx
 └── BrowserRouter
-    └── App                       (Routes)
-        ├── MeditationAppProvider (Context: sessioni salvate)
+    └── App
+        ├── SessionContextProvider (Context: sessioni salvate) → Routes
         │   ├── HomePage
         │   ├── TimerPage         (fase della pagina, durata scelta, tempo che scorre)
         │   │   ├── DurationPicker
@@ -113,9 +113,10 @@ const session = {
 
 - Un restart non apre una nuova sessione: azzera `elapsedMs`, azzera `pause` e incrementa `restart`.
 - Il resoconto si consegna al Context una volta sola: a fine timer, con Termina, oppure quando si lascia la pagina (funzione di pulizia dell'`useEffect` di `TimerPage`).
+- Uscita dalla pagina (fatto il 26/11/2026): `sessionRef` contiene `{ phase, session }` ed è aggiornato da un effetto che dipende da tutti i valori che usa; un secondo effetto con `[]` legge il ref **dentro** la pulizia, così vede i valori attuali e non quelli del primo render (closure). Salva solo in `"Meditation"` o `"Pause"`: in `"Finish"` la sessione è già consegnata, in `"Idle"` non è iniziata (questo evita anche il salvataggio doppio del montaggio di prova di `StrictMode`). `addSession` è esclusa dalle dipendenze, con un commento e la deroga di ESLint: la prima versione resta valida perché aggiorna con `setSessions(prev => ...)`.
 - Completata se `elapsedMs >= durationMs`. Nessuna tolleranza: il timer calcola il tempo con `Date.now()` e, a fine timer, imposta `elapsedMs` esattamente a `durationMs`. Una sessione chiusa con Termina prima della fine non è completata.
 - Nessuna proprietà `finished`: il dato si ricava (_avoid redundant state_).
-- Il Context tiene l'array delle sessioni e lo salva in `localStorage` (`JSON.stringify` / `JSON.parse`).
+- Il Context tiene l'array delle sessioni e lo salva in `localStorage` con la chiave `meditation_app_sessions` (`JSON.stringify` / `JSON.parse`); la lettura iniziale avviene in una funzione passata a `useState`, dentro `try/catch`.
 
 ### Trofei
 
