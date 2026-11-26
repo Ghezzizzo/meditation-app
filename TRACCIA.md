@@ -73,7 +73,7 @@ La casa porta sempre alla Home, anche arrivando da un segnalibro. Collegamenti c
 main.jsx
 └── BrowserRouter
     └── App
-        ├── SessionContextProvider (Context: sessioni salvate) → Routes
+        ├── MeditationAppProvider (Context: sessioni e trofei) → Routes
         │   ├── HomePage
         │   ├── TimerPage         (fase della pagina, durata scelta, tempo che scorre)
         │   │   ├── DurationPicker

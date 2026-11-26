@@ -2,11 +2,11 @@ import { Navigate, Routes, Route } from "react-router";
 import HomePage from "./pages/HomePage";
 import TimerPage from "./pages/TimerPage";
 import TrophiesPage from "./pages/TrophiesPage";
-import { SessionContextProvider } from "./context/SessionContextProvider";
+import { MeditationAppProvider } from "./context/MeditationAppProvider";
 
 function App() {
   return (
-    <SessionContextProvider>
+    <MeditationAppProvider>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/timer" element={<TimerPage />} />
@@ -14,7 +14,7 @@ function App() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
-    </SessionContextProvider>
+    </MeditationAppProvider>
   );
 }
 

@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
-import { SessionContext } from "./SessionContext";
+import { MeditationAppContext } from "./MeditationAppContext";
 
 const STORAGE_KEY = "meditation_app_sessions";
 
-export const SessionContextProvider = ({ children }) => {
+export const MeditationAppProvider = ({ children }) => {
   const [sessions, setSessions] = useState(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
@@ -23,6 +23,8 @@ export const SessionContextProvider = ({ children }) => {
   }
 
   return (
-    <SessionContext value={{ sessions, addSession }}>{children}</SessionContext>
+    <MeditationAppContext value={{ sessions, addSession }}>
+      {children}
+    </MeditationAppContext>
   );
 };

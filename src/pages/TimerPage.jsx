@@ -10,7 +10,7 @@ import Result from "../components/TimerPage/Result";
 import DurationPicker from "../components/TimerPage/DurationPicker";
 import { minToMs } from "../utils/time";
 import { createSession } from "../utils/sessions";
-import { SessionContext } from "../context/SessionContext";
+import { MeditationAppContext } from "../context/MeditationAppContext";
 
 const DEFAULT_DURATION = minToMs(5);
 
@@ -23,7 +23,7 @@ function TimerPage() {
 
   const startTimeRef = useRef(null);
   const sessionRef = useRef({ phase: "Idle", session: {} });
-  const { addSession } = useContext(SessionContext);
+  const { addSession } = useContext(MeditationAppContext);
 
   useEffect(() => {
     if (phase !== "Meditation") return;
