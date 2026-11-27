@@ -3,7 +3,7 @@ import { minToMs } from "./time";
 
 const MIN_NO_PAUSE_MINUTES = 5;
 
-export const rulesTrophies = {
+const trophiesRules = {
   firstMeditation: (sessions) => {
     return sessions.length > 0;
   },
@@ -17,3 +17,14 @@ export const rulesTrophies = {
     );
   },
 };
+
+export function isTrophyUnlocked(trophy, sessions) {
+  const rule = trophiesRules[trophy.id];
+
+  if (!rule) {
+    console.warn(`Nessuna regola per il trofeo ${trophy.id}`);
+    return false;
+  }
+
+  return rule(sessions);
+}
