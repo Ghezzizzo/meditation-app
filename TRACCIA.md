@@ -45,7 +45,7 @@ Anche se il sito web che creerai non è complesso, sarebbe meglio utilizzare alc
 | Struttura dell'app organizzata                 | sì           | in corso |
 | Design responsive                              | sì           | in corso |
 | React Router                                   | bonus        | fatto    |
-| Axios                                          | bonus        | da fare  |
+| Axios                                          | bonus        | fatto    |
 | React Hooks                                    | bonus        | in corso |
 | Redux o Context API                            | bonus        | fatto    |
 
@@ -121,9 +121,12 @@ const session = {
 ### Trofei
 
 - Si ricavano ogni volta dall'array delle sessioni: non si salva a parte l'elenco degli sbloccati.
-- **Neofita:** prima meditazione iniziata. Si sblocca alla pressione di Avvia, ma si notifica solo in `"Finish"` o nella pagina Trofei, mai durante la meditazione.
-- **Senza pause:** sessione di una certa durata completata con `pause: 0`.
-- Bonus Axios: elenco dei trofei in un file JSON in `public/`, caricato con Axios.
+- **Neofita** (`firstMeditation`): almeno una sessione salvata. Poiché una sessione avviata si salva sempre (fine, Termina o uscita dalla pagina), vale come «prima meditazione iniziata»; si notifica solo in `"Finish"` o nella pagina Trofei, mai durante la meditazione.
+- **Senza pause** (`noPause`): esiste almeno una sessione (`some`) completata, con `pause: 0` e `elapsedMs` di almeno `MIN_NO_PAUSE_MINUTES` (5). La soglia è una costante propria, indipendente da `DEFAULT_DURATION`: coincidono solo per caso.
+- Bonus Axios (fatto il 26-27/11/2026): `public/trophies.json` con `id`, `title`, `icon` (nome di un'icona `lucide-react`), `description`, `rarity` (chiave dello stile: `common`, `rare`, `epic`, `hidden`), `rarityText` (testo mostrato, es. «Comune»), `isHidden`; nessuna regola nel JSON, perché un JSON non contiene funzioni. Il Provider lo carica una volta con `axios.get("/trophies.json")` in un effetto con `[]`, con la funzione `async` dichiarata dentro l'effetto, ed espone `trophies`, `loading` ed `error`. Controllo `Array.isArray(response.data)`: con un percorso sbagliato il server di Vite risponde con `index.html` e stato 200, non con un errore.
+- Niente flag `ignore` nell'effetto di caricamento (scelta del 27/11/2026): con `[]` parte una sola volta in produzione e il doppio avvio di `StrictMode` produce due risposte identiche, quindi non c'è *race condition*. Da aggiungere se l'effetto avrà dipendenze.
+- Regole in `src/utils/trophyRules.js`: un oggetto non esportato indicizzato per `id` e la funzione esportata `isTrophyUnlocked(trophy, sessions)`, che restituisce `false` con un `console.warn` se l'id non ha regola. `isCompleted` e `createSession` sono in `src/utils/sessions.js`.
+- Trofei nuovi in `"Finish"`: sbloccati con tutte le sessioni e non con `sessions.slice(0, -1)`. Calcolati nel componente `NewTrophies` (fatto il 27/11/2026), che legge il Context: così `Result` resta di sola presentazione. Senza trofei nuovi restituisce `null` (niente messaggio «Nessun trofeo nuovo», che sarebbe rumore per chi li ha già tutti) e non ha un titolo proprio, per scelta. Le card sono `TrophyCard` in `src/components/`, condivisa con `TrophiesPage`; l'icona arriva come stringa dal JSON e passa da una mappa verso i componenti `lucide-react`.
 - La gamification si fa per ultima, dopo timer e responsive.
 
 ### Da ripassare

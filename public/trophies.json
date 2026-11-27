@@ -2,17 +2,19 @@
   {
     "id": "firstMeditation",
     "title": "Neofita",
-    "icon": "Baby",
+    "icon": "baby",
     "description": "Medita per la prima volta",
-    "tier": 1,
+    "rarity": "common",
+    "rarityText": "Comune",
     "isHidden": false
   },
   {
     "id": "noPause",
     "title": "Senza pause",
-    "icon": "FastForward",
+    "icon": "fastforward",
     "description": "Medita senza mai mettere in pausa per almeno 5 minuti",
-    "tier": 1,
+    "rarity": "common",
+    "rarityText": "Comune",
     "isHidden": false
   }
 ]
