@@ -1,4 +1,4 @@
-import { Baby, Trophy, FastForward } from "lucide-react";
+import { Baby, Trophy, FastForward, Lock } from "lucide-react";
 
 // Mappa tra la stringa del JSON e il componente Lucide
 const ICON_MAP = {
@@ -53,7 +53,16 @@ export function TrophyCard({
 
       <div className="flex-1">
         <div className="mb-1 flex items-center justify-between gap-2">
-          <h3 className="font-bold text-primary">{title}</h3>
+          <div className="flex items-center">
+            <h3 className="font-bold text-primary">{title}</h3>
+
+            {active ? null : (
+              <Lock
+                aria-label="Bloccato"
+                className="w-3 h-3 ml-2 text-primary"
+              />
+            )}
+          </div>
 
           <span
             className={`rounded-full border px-2.5 py-0.5 text-xs font-semibold capitalize ${style.badge}`}

@@ -3,6 +3,7 @@ import { MeditationAppContext } from "./MeditationAppContext";
 import axios from "axios";
 
 const STORAGE_KEY = "meditation_app_sessions";
+const ERROR_MESSAGE = "Impossibile caricare i trofei";
 
 export const MeditationAppProvider = ({ children }) => {
   const [trophies, setTrophies] = useState([]);
@@ -30,12 +31,12 @@ export const MeditationAppProvider = ({ children }) => {
         if (Array.isArray(response.data)) {
           setTrophies(response.data);
         } else {
-          setError("Impossibile caricare i trofei.");
+          setError(ERROR_MESSAGE);
           console.error("I dati scaricati non sono un array");
         }
       } catch (err) {
         console.error("Errore nel recupero dei trofei:", err);
-        setError("Impossibile caricare i trofei.");
+        setError(ERROR_MESSAGE);
       } finally {
         setLoading(false);
       }
